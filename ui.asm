@@ -1,6 +1,6 @@
 // Output boundary. Keeping all terminal text here makes future UI changes local.
 .arch armv8-a
-.include "game.inc"
+include(`game.inc')dnl
 
 .section .rodata
 ui_banner:

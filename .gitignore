@@ -3,5 +3,6 @@
 
 # ARM64 build outputs
 *.o
+*.s
 spaceship
 spaceship.exe

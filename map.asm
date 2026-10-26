@@ -1,6 +1,6 @@
 // Immutable galaxy data and safe indexed access to planet records.
 .arch armv8-a
-.include "game.inc"
+include(`game.inc')dnl
 
 .section .rodata
 .balign 8

@@ -1,6 +1,6 @@
 // Workflows that combine the map, persistent state, and user interface.
 .arch armv8-a
-.include "game.inc"
+include(`game.inc')dnl
 
 .section .text
 .balign 4

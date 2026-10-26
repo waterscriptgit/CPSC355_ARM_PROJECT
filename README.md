@@ -9,21 +9,25 @@ The foundation establishes separate modules, a stable data layout, a documented
 procedure convention, input validation boundaries, and a full vertical game
 flow. The planet map is deterministic on purpose: it makes testing repeatable.
 
-## Toolchain assumption
+## Course build workflow
 
 The code uses GNU AArch64 assembly syntax and the standard C library's
-`printf`, `scanf`, and `getchar` functions. Build it in an AArch64 Linux
-environment with:
+`printf`, `scanf`, and `getchar` functions. It is written for the course's
+`m4` preprocessing workflow. From the directory containing the source files,
+run:
 
 ```sh
-aarch64-linux-gnu-gcc -g -Wall -x assembler -o spaceship \
-  main.asm map.asm game_state.asm input.asm ui.asm game_logic.asm
+for file in main map game_state input ui game_logic; do
+  m4 "$file.asm" > "$file.s"
+done
+gcc -g -Wall -o spaceship \
+  main.s map.s game_state.s input.s ui.s game_logic.s
+./spaceship
 ```
 
-Run the resulting AArch64 executable on native hardware or through the
-course-provided execution environment. If the course uses a different I/O
-library, only `input.asm` and `ui.asm` should need adjustment; the game data,
-logic, and interfaces remain unchanged.
+The generated `.s` files and executable are ignored by Git. If the course uses
+a different I/O library, only `input.asm` and `ui.asm` should need adjustment;
+the game data, logic, and interfaces remain unchanged.
 
 ## Manual smoke tests
 

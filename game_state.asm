@@ -1,6 +1,6 @@
 // Persistent game state. Values live in memory so they survive subroutine calls.
 .arch armv8-a
-.include "game.inc"
+include(`game.inc')dnl
 
 .section .bss
 .balign 4
