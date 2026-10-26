@@ -16,7 +16,7 @@ The code uses GNU AArch64 assembly syntax and the standard C library's
 environment with:
 
 ```sh
-aarch64-linux-gnu-gcc -g -Wall -o spaceship \
+aarch64-linux-gnu-gcc -g -Wall -x assembler -o spaceship \
   main.asm map.asm game_state.asm input.asm ui.asm game_logic.asm
 ```
 
