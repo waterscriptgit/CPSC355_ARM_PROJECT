@@ -99,4 +99,3 @@ map_get_planet:
 .Lmap_invalid_index:
     mov     x0, xzr
     ret
-

@@ -80,4 +80,3 @@ game_mark_scanned:
     strb    w2, [x1, w0, uxtw]
 .Lmark_done:
     ret
-

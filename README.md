@@ -33,4 +33,3 @@ logic, and interfaces remain unchanged.
 4. Attempt travel without enough fuel and confirm fuel is unchanged.
 5. Travel to a non-viable planet, then a viable one, and confirm the win screen.
 6. Reach zero fuel after a non-viable trip and confirm the loss screen.
-

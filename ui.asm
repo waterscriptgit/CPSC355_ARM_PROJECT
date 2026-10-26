@@ -52,7 +52,6 @@ ui_print_banner:
     bl      printf
     ldp     x29, x30, [sp], #16
     ret
-
 .global ui_print_status
 .type ui_print_status, %function
 ui_print_status:

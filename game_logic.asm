@@ -13,7 +13,6 @@ game_action_list_planets:
     mov     w0, wzr
     ldp     x29, x30, [sp], #16
     ret
-
 .global game_action_help
 .type game_action_help, %function
 game_action_help:

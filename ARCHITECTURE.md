@@ -46,4 +46,3 @@ offset 16: 8-byte pointer to a scanner hint
 Mutable game state lives in `.bss`, not in registers, so values survive calls
 between menu actions. The trait mask makes the viability check a single
 bitwise-and followed by a comparison.
-

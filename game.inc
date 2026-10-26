@@ -23,4 +23,3 @@
 .equ ACTION_TRAVEL,         3
 .equ ACTION_HELP,           4
 .equ ACTION_QUIT,           5
-
