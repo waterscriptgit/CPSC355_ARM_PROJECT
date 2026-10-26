@@ -1,0 +1,8 @@
+# Local IDE settings
+.idea/
+
+# ARM64 build outputs
+*.o
+spaceship
+spaceship.exe
+
