@@ -2,6 +2,7 @@
 // All source files include this file so their interfaces stay compatible.
 
 .equ PLANET_COUNT,          3
+.equ TEMPLATE_COUNT,        20
 .equ INITIAL_FUEL,          20
 .equ STUDY_COST,            2
 

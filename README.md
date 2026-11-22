@@ -2,9 +2,9 @@
 
 This project is a text-based space exploration game written in ARMv8/AArch64 assembly.
 
-Earth is becoming unable to support human life, and the player takes the role of a former NASA pilot chosen to search for a new home for humanity. Three planets have returned promising signals from previously sent scientists, but the spacecraft is damaged while travelling through a wormhole and fuel becomes limited.
+Earth is becoming unable to support human life, and the player takes the role of a former NASA pilot chosen to search for a new home for humanity. The game has 20 planet templates and randomly chooses three different candidates at the beginning of each run.
 
-The player must decide how to use the remaining fuel. Planets can be studied remotely for additional information or travelled to directly. Only one of the three planets is actually suitable for long-term human survival.
+The player must decide how to use the remaining fuel. Planets can be studied remotely for additional information or travelled to directly. Some runs have a habitable candidate; other unlucky runs do not, so humanity can lose even with good choices.
 
 The mission ends when the player finds the habitable planet, abandons the mission, quits, or no longer has enough fuel to continue.
 
@@ -25,11 +25,7 @@ After entering the system, the main menu allows the player to:
 4. View mission help
 5. Quit the mission
 
-There are three candidate planets:
-
-- **Aurelia** - the actual habitable planet.
-- **Miller** - appears promising but has dangerous environmental conditions.
-- **Mann** - has a promising original report, but a detailed study reveals that the transmitted information is unreliable.
+There are three candidate planets each run. They are picked without duplicates from the 20-template pool, so both their names and their order can change whenever the game starts.
 
 Studying a planet costs 2 fuel and reveals a more detailed scientific report. Studying the same planet again does not charge fuel a second time.
 
@@ -57,7 +53,7 @@ The project is separated into several assembly files so that each part of the pr
 | File | Responsibility |
 | --- | --- |
 | `main.asm` | Controls the overall game flow, menus, branching, and player choices |
-| `map.asm` | Stores the three planet records and scientific information |
+| `map.asm` | Stores 20 planet templates and picks three candidates at startup |
 | `game_state.asm` | Stores fuel, current location, studied planets, and visited planets |
 | `game_logic.asm` | Handles studying, travelling, habitability checks, and win/loss conditions |
 | `input.asm` | Reads integer input and recovers from invalid input |
@@ -97,7 +93,7 @@ Initial scientist report
 Detailed study report
 ```
 
-A planet index is converted into the address of its record using its index and the size of each record.
+A random template index is converted into an address using the record size. The game then stores three selected-record pointers for the current mission.
 
 ### Function Calls and Registers
 
@@ -333,7 +329,7 @@ Start with:
 Fuel: 20
 ```
 
-Study Aurelia.
+Study any listed candidate.
 
 Expected result:
 
@@ -341,11 +337,11 @@ Expected result:
 Fuel: 18
 ```
 
-and Aurelia's detailed report is displayed.
+and that candidate's detailed report is displayed.
 
 ### Study the Same Planet Twice
 
-Study Aurelia again.
+Study the same candidate again.
 
 Expected result:
 
@@ -357,7 +353,7 @@ The report can still be viewed.
 
 ### Travel to a Non-Habitable Planet
 
-Travel to Miller.
+Travel to a candidate that turns out to be unsafe.
 
 Expected result:
 
@@ -365,15 +361,15 @@ Expected result:
 20 -> 13 fuel
 ```
 
-Miller is reported as unsuitable and the mission continues if another planet can still be reached.
+The planet is reported as unsuitable and the mission continues if another planet can still be reached.
 
 ### Repeat Travel
 
-Attempt to travel to Miller again.
+Attempt to travel to the same planet again.
 
 Expected result:
 
-- the game reports that Miller was already visited;
+- the game reports that the planet was already visited;
 - no additional fuel is deducted.
 
 ### Insufficient Fuel
@@ -385,45 +381,23 @@ Expected result:
 - the trip is rejected;
 - fuel remains unchanged.
 
-### Direct Winning Path
+### Random Candidate List
 
-Travel directly to Aurelia.
+Start the game several times.
 
 Expected result:
 
-```text
-20 -> 11 fuel
-```
+- every list contains three different planet names;
+- the names and order can change from one run to another; and
+- some runs have no habitable candidate, so losing is possible even with enough fuel.
 
-Aurelia is identified as habitable and the mission-success ending is displayed.
+### Winning Path
 
-### Study Then Win
-
-Study Aurelia:
-
-```text
-20 -> 18
-```
-
-Then travel to Aurelia:
-
-```text
-18 -> 9
-```
+On a run with a viable candidate, study the candidates and travel to the one whose report confirms the needed conditions.
 
 Expected result:
 
 - mission success.
-
-### False Data
-
-Study Mann.
-
-Expected result:
-
-The detailed report reveals major differences from the original scientist transmission, including extremely low temperature, trace oxygen, frozen water, and very low atmospheric pressure.
-
-This allows the player to identify the original report as unreliable before spending fuel travelling there.
 
 ### Mission Failure
 
@@ -451,6 +425,4 @@ The main game flow, planet system, fuel management, input validation, studying, 
 
 Current work is focused on testing the different paths through the game, handling edge cases, improving readability, and polishing the terminal interface.
 
-A possible future improvement would be to randomize planet characteristics or habitability so that the correct planet is not always the same. The current fixed map is useful during development because it makes testing repeatable and makes it easier to verify that each game path produces the expected result.
-
-Nonetheless, Game is has been implemented and ready for submission.
+The template pool is fixed so each planet can be explained and tested, but the three candidates are randomized every time the program starts.

@@ -40,7 +40,7 @@ ui_menu:
     .asciz "\n1. View candidate planets\n2. Study a planet\n3. Travel to a planet\n4. Mission help\n5. Quit mission\n> "
 
 ui_planet_heading:
-    .asciz "\n=== CANDIDATE PLANETS ===\n"
+    .asciz "\n=== THIS RUN'S CANDIDATE PLANETS ===\n"
 
 ui_planet_row:
     .asciz "\nPlanet %d: %s\nTravel cost: %d fuel\nInitial report: %s\n"
@@ -102,7 +102,7 @@ ui_win_format:
     .asciz "\nAtmospheric composition: SAFE\nLiquid water: CONFIRMED\nTemperature: STABLE\nRadiation: SAFE\nOrganic compounds: DETECTED\n\n%s IS HABITABLE.\n\nFor the first time in decades, humanity receives hopeful news.\nCoordinates are transmitted back through the wormhole, and preparations begin for the largest journey in human history.\n\nEarth may be dying, but humanity will continue somewhere new among the stars.\n\nMISSION SUCCESS - HUMANITY SURVIVES.\n"
 
 ui_loss:
-    .asciz "\nCRITICAL WARNING: No reachable habitable planet remains.\n\nThe spacecraft drifts silently through the system.\nA habitable world may still exist nearby, but you no longer have the fuel required to reach it.\n\nNo rescue signal reaches Earth.\n\nMISSION FAILED - HUMANITY'S FINAL EXPEDITION IS LOST.\n"
+    .asciz "\nCRITICAL WARNING: No reachable planet can save humanity.\n\nThe spacecraft drifts silently through the system.\nThere may be no suitable world in this group, or there may not be enough fuel left to reach one.\n\nNo rescue signal reaches Earth.\n\nMISSION FAILED - HUMANITY'S FINAL EXPEDITION IS LOST.\n"
 
 ui_quit:
     .asciz "\nMission ended by player.\nHumanity's fate remains unknown.\n"
@@ -115,21 +115,6 @@ ui_quit:
 .global ui_print_banner
 .type ui_print_banner, %function
 
-/**
- * ui_print_banner
- *
- * Purpose:
- * Displays the game's title.
- *
- * Input:
- * None.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Prints text to the terminal.
- */
 ui_print_banner:
 
     stp     x29, x30, [sp, #-16]!
@@ -147,22 +132,6 @@ ui_print_banner:
 .global ui_print_prologue
 .type ui_print_prologue, %function
 
-/**
- * ui_print_prologue
- *
- * Purpose:
- * Displays the opening story explaining Earth's condition
- * and the player's mission.
- *
- * Input:
- * None.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Prints story text to the terminal.
- */
 ui_print_prologue:
 
     stp     x29, x30, [sp, #-16]!
@@ -180,21 +149,6 @@ ui_print_prologue:
 .global ui_prompt_wormhole
 .type ui_prompt_wormhole, %function
 
-/**
- * ui_prompt_wormhole
- *
- * Purpose:
- * Displays the player's first major decision.
- *
- * Input:
- * None.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Prints the wormhole menu.
- */
 ui_prompt_wormhole:
 
     stp     x29, x30, [sp, #-16]!
@@ -212,22 +166,6 @@ ui_prompt_wormhole:
 .global ui_print_wormhole_entered
 .type ui_print_wormhole_entered, %function
 
-/**
- * ui_print_wormhole_entered
- *
- * Purpose:
- * Displays the spacecraft damage and fuel-loss message
- * after the player enters the wormhole.
- *
- * Input:
- * None.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Prints story text.
- */
 ui_print_wormhole_entered:
 
     stp     x29, x30, [sp, #-16]!
@@ -245,22 +183,6 @@ ui_print_wormhole_entered:
 .global ui_print_abandon
 .type ui_print_abandon, %function
 
-/**
- * ui_print_abandon
- *
- * Purpose:
- * Displays the ending when the player refuses
- * to enter the wormhole.
- *
- * Input:
- * None.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Prints the failed-mission ending.
- */
 ui_print_abandon:
 
     stp     x29, x30, [sp, #-16]!
@@ -278,21 +200,6 @@ ui_print_abandon:
 .global ui_print_status
 .type ui_print_status, %function
 
-/**
- * ui_print_status
- *
- * Purpose:
- * Displays the player's current fuel.
- *
- * Input:
- * None.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Calls game_get_fuel and prints the value.
- */
 ui_print_status:
 
     stp     x29, x30, [sp, #-16]!
@@ -316,21 +223,6 @@ ui_print_status:
 .global ui_print_menu
 .type ui_print_menu, %function
 
-/**
- * ui_print_menu
- *
- * Purpose:
- * Displays the main mission menu.
- *
- * Input:
- * None.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Prints the available actions.
- */
 ui_print_menu:
 
     stp     x29, x30, [sp, #-16]!
@@ -348,22 +240,6 @@ ui_print_menu:
 .global ui_print_planets
 .type ui_print_planets, %function
 
-/**
- * ui_print_planets
- *
- * Purpose:
- * Displays all three planets, their travel costs,
- * and their original scientist reports.
- *
- * Input:
- * None.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Calls map_get_planet and prints planet information.
- */
 ui_print_planets:
 
     stp     x29, x30, [sp, #-48]!
@@ -419,21 +295,6 @@ ui_print_planets:
 .global ui_prompt_planet
 .type ui_prompt_planet, %function
 
-/**
- * ui_prompt_planet
- *
- * Purpose:
- * Asks the player to choose one of the three planets.
- *
- * Input:
- * None.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Prints the prompt.
- */
 ui_prompt_planet:
 
     stp     x29, x30, [sp, #-16]!
@@ -451,21 +312,6 @@ ui_prompt_planet:
 .global ui_print_invalid_input
 .type ui_print_invalid_input, %function
 
-/**
- * ui_print_invalid_input
- *
- * Purpose:
- * Tells the player that the menu choice was invalid.
- *
- * Input:
- * None.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Prints an error message.
- */
 ui_print_invalid_input:
 
     stp     x29, x30, [sp, #-16]!
@@ -483,21 +329,6 @@ ui_print_invalid_input:
 .global ui_print_invalid_planet
 .type ui_print_invalid_planet, %function
 
-/**
- * ui_print_invalid_planet
- *
- * Purpose:
- * Tells the player that the planet number was invalid.
- *
- * Input:
- * None.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Prints an error message.
- */
 ui_print_invalid_planet:
 
     stp     x29, x30, [sp, #-16]!
@@ -515,21 +346,6 @@ ui_print_invalid_planet:
 .global ui_print_help
 .type ui_print_help, %function
 
-/**
- * ui_print_help
- *
- * Purpose:
- * Explains the basic science and game rules.
- *
- * Input:
- * None.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Prints help text.
- */
 ui_print_help:
 
     stp     x29, x30, [sp, #-16]!
@@ -547,22 +363,6 @@ ui_print_help:
 .global ui_print_study_result
 .type ui_print_study_result, %function
 
-/**
- * ui_print_study_result
- *
- * Purpose:
- * Displays the detailed scientific analysis
- * for a studied planet.
- *
- * Input:
- * x0 = pointer to the selected planet record.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Prints the planet's detailed report.
- */
 ui_print_study_result:
 
     stp     x29, x30, [sp, #-16]!
@@ -584,21 +384,6 @@ ui_print_study_result:
 .global ui_print_insufficient_study_fuel
 .type ui_print_insufficient_study_fuel, %function
 
-/**
- * ui_print_insufficient_study_fuel
- *
- * Purpose:
- * Tells the player they cannot afford a remote study.
- *
- * Input:
- * None.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Prints an error message.
- */
 ui_print_insufficient_study_fuel:
 
     stp     x29, x30, [sp, #-16]!
@@ -616,21 +401,6 @@ ui_print_insufficient_study_fuel:
 .global ui_print_travel_start
 .type ui_print_travel_start, %function
 
-/**
- * ui_print_travel_start
- *
- * Purpose:
- * Displays the travel and landing message.
- *
- * Input:
- * x0 = pointer to the selected planet record.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Prints travel information.
- */
 ui_print_travel_start:
 
     stp     x29, x30, [sp, #-16]!
@@ -654,21 +424,6 @@ ui_print_travel_start:
 .global ui_print_insufficient_fuel
 .type ui_print_insufficient_fuel, %function
 
-/**
- * ui_print_insufficient_fuel
- *
- * Purpose:
- * Tells the player they cannot afford the selected trip.
- *
- * Input:
- * None.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Prints an error message.
- */
 ui_print_insufficient_fuel:
 
     stp     x29, x30, [sp, #-16]!
@@ -686,22 +441,6 @@ ui_print_insufficient_fuel:
 .global ui_print_already_visited
 .type ui_print_already_visited, %function
 
-/**
- * ui_print_already_visited
- *
- * Purpose:
- * Tells the player they have already travelled
- * to the selected planet.
- *
- * Input:
- * x0 = pointer to the selected planet record.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Prints a warning message.
- */
 ui_print_already_visited:
 
     stp     x29, x30, [sp, #-16]!
@@ -722,22 +461,6 @@ ui_print_already_visited:
 .global ui_print_nonviable
 .type ui_print_nonviable, %function
 
-/**
- * ui_print_nonviable
- *
- * Purpose:
- * Displays the result when the player lands
- * on a planet that cannot support humanity.
- *
- * Input:
- * x0 = pointer to the selected planet record.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Prints the failed landing result.
- */
 ui_print_nonviable:
 
     stp     x29, x30, [sp, #-16]!
@@ -758,22 +481,6 @@ ui_print_nonviable:
 .global ui_print_win
 .type ui_print_win, %function
 
-/**
- * ui_print_win
- *
- * Purpose:
- * Displays the successful ending when the player
- * reaches the habitable planet.
- *
- * Input:
- * x0 = pointer to the habitable planet record.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Prints the mission-success story.
- */
 ui_print_win:
 
     stp     x29, x30, [sp, #-16]!
@@ -794,22 +501,6 @@ ui_print_win:
 .global ui_print_loss
 .type ui_print_loss, %function
 
-/**
- * ui_print_loss
- *
- * Purpose:
- * Displays the ending when the player can no longer
- * reach a habitable planet.
- *
- * Input:
- * None.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Prints the mission-failure story.
- */
 ui_print_loss:
 
     stp     x29, x30, [sp, #-16]!
@@ -827,22 +518,6 @@ ui_print_loss:
 .global ui_print_quit
 .type ui_print_quit, %function
 
-/**
- * ui_print_quit
- *
- * Purpose:
- * Displays the message when the player manually
- * quits the mission.
- *
- * Input:
- * None.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Prints the quit message.
- */
 ui_print_quit:
 
     stp     x29, x30, [sp, #-16]!
@@ -858,25 +533,6 @@ ui_print_quit:
 .global ui_wait_for_enter
 .type ui_wait_for_enter, %function
 
-/**
- * ui_wait_for_enter
- *
- * Purpose:
- * Pauses the screen until the player presses Enter.
- *
- * The first getchar removes the newline left behind
- * by scanf. The function then waits for the player
- * to press Enter again.
- *
- * Input:
- * None.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Waits for keyboard input.
- */
 ui_wait_for_enter:
 
     stp     x29, x30, [sp, #-16]!
