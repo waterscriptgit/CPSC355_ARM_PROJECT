@@ -563,34 +563,21 @@ ui_print_help:
  */
 ui_print_study_result:
 
-    stp     x29, x30, [sp, #-32]!
+    stp     x29, x30, [sp, #-16]!
     mov     x29, sp
 
-    // Save planet pointer.
-    str     x0, [sp, #16]
-
-    // Print study cost message.
-    adrp    x0, ui_study_cost
-    add     x0, x0, :lo12:ui_study_cost
-    bl      printf
-
-    // Restore planet pointer.
-    ldr     x0, [sp, #16]
-
-    // printf arguments:
-    // x1 = planet name
-    // x2 = detailed study report
+    // x1 = planet name.
     ldr     x1, [x0, #PLANET_NAME]
+
+    // x2 = detailed scientific report.
     ldr     x2, [x0, #PLANET_STUDY]
 
     adrp    x0, ui_study_format
     add     x0, x0, :lo12:ui_study_format
     bl      printf
 
-    ldp     x29, x30, [sp], #32
+    ldp     x29, x30, [sp], #16
     ret
-
-
 
 .global ui_print_insufficient_study_fuel
 .type ui_print_insufficient_study_fuel, %function
