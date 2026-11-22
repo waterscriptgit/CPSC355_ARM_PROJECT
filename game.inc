@@ -27,7 +27,7 @@
 
 // Menu actions.
 .equ ACTION_LIST_PLANETS,   1
-.equ ACTION_SCAN_PLANET,    2
+.equ ACTION_STUDY_PLANET,   2
 .equ ACTION_TRAVEL,         3
 .equ ACTION_HELP,           4
 .equ ACTION_QUIT,           5
