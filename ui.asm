@@ -46,13 +46,13 @@ ui_planet_row:
     .asciz "\nPlanet %d: %s\nTravel cost: %d fuel\nInitial report: %s\n"
 
 ui_planet_prompt:
-    .asciz "Planet number (1-3): "
+    .asciz "Planet number (1-3), or 0 to go back: "
 
 ui_invalid_input:
     .asciz "Invalid choice. Enter one of the listed numbers.\n"
 
 ui_invalid_planet:
-    .asciz "Invalid planet number. Choose a value from 1 to 3.\n"
+    .asciz "Invalid planet number. Choose 1 to 3, or 0 to go back.\n"
 
 
 // ------------------------------------------------------------

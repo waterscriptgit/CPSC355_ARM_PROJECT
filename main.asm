@@ -220,30 +220,52 @@ main:
 
 .Lstudy_planet:
 
+.Lstudy_choice:
+
     // Ask which planet to study.
     bl      ui_prompt_planet
 
     // Read planet number.
     bl      input_read_integer
 
-    // Study selected planet.
+    // 0 means go back to the main menu.
+    cmp     w0, #0
+    b.eq    .Lmain_loop
+
+    // Valid choices are only 1, 2, and 3.
+    cmp     w0, #1
+    b.lt    .Lstudy_invalid_choice
+
+    cmp     w0, #PLANET_COUNT
+    b.gt    .Lstudy_invalid_choice
+
+
+    // Study the selected planet.
     bl      game_action_study
 
-    // Save the return value because ui_wait_for_enter
-    // may change w0.
+    // Save return value because the pause may change w0.
     mov     w19, w0
 
-    // Give the player time to read the study report.
+    // Let the player read the report.
     bl      ui_wait_for_enter
 
-    // Restore the study result.
+    // Restore result.
     mov     w0, w19
 
-    // 2 means the mission is lost.
+    // 2 means mission lost.
     cmp     w0, #2
     b.eq    .Lmain_exit
 
     b       .Lmain_loop
+
+
+.Lstudy_invalid_choice:
+
+    // Tell the player the planet number was invalid.
+    bl      ui_print_invalid_planet
+
+    // Stay inside the Study submenu.
+    b       .Lstudy_choice
 
 // ------------------------------------------------------------
 // TRAVEL TO PLANET
@@ -251,35 +273,64 @@ main:
 
 .Ltravel_planet:
 
+.Ltravel_choice:
+
     // Ask which planet to travel to.
     bl      ui_prompt_planet
 
     // Read planet number.
     bl      input_read_integer
 
+    // 0 means go back to the main menu.
+    cmp     w0, #0
+    b.eq    .Lmain_loop
+
+    // Valid choices are only 1, 2, and 3.
+    cmp     w0, #1
+    b.lt    .Ltravel_invalid_choice
+
+    cmp     w0, #PLANET_COUNT
+    b.gt    .Ltravel_invalid_choice
+
+
     // Attempt the trip.
-    //
-    // Returns:
-    // 0 = continue
-    // 1 = mission won
-    // 2 = mission lost
     bl      game_action_travel
 
+    // Save the result because the pause may change w0.
+    mov     w19, w0
 
-    // Player found the habitable planet.
+
+    // If the game is still continuing,
+    // let the player read the travel result.
+    cmp     w19, #0
+    b.ne    .Ltravel_check_result
+
+    bl      ui_wait_for_enter
+
+
+.Ltravel_check_result:
+
+    // Restore result.
+    mov     w0, w19
+
+    // 1 = mission won.
     cmp     w0, #1
     b.eq    .Lmain_exit
 
-
-    // Player can no longer continue the mission.
+    // 2 = mission lost.
     cmp     w0, #2
     b.eq    .Lmain_exit
 
-
-    // Otherwise return to the menu.
     b       .Lmain_loop
 
 
+.Ltravel_invalid_choice:
+
+    // Tell the player the number was invalid.
+    bl      ui_print_invalid_planet
+
+    // Stay inside the Travel submenu.
+    b       .Ltravel_choice
 
 // ------------------------------------------------------------
 // MISSION HELP
