@@ -80,3 +80,38 @@ game_mark_scanned:
     strb    w2, [x1, w0, uxtw]
 .Lmark_done:
     ret
+
+
+.global game_can_afford_travel
+.type game_can_afford_travel, %function
+
+game_can_afford_travel:
+    stp x29, x30, [sp, #-32]!
+    mov x29, sp
+
+    // Save the travel cost
+    str w0, [sp, #16]
+
+    // Call the existing game_get_fuel function
+    bl game_get_fuel
+
+    // Restore the travel cost into w1
+    ldr w1, [sp, #16]
+
+    // Compare current fuel against travel cost
+    cmp w0, w1
+
+    // Branch to cant_afford if fuel is lower
+    b.lt cant_afford
+
+    // successs! set w0 to 1, then jump to check_done to skip cant afford function
+    mov w0, #1
+    b check_done
+
+cant_afford:
+// failure... set w0 to 0.
+    mov w0, #0
+
+check_done:
+    ldp x29, x30, [sp], #32
+    ret
