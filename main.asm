@@ -35,7 +35,7 @@ include(`game.inc')dnl
 .extern ui_prompt_planet
 .extern ui_print_invalid_input
 .extern ui_print_quit
-
+.extern ui_wait_for_enter
 
 /**
  * main
@@ -63,8 +63,9 @@ include(`game.inc')dnl
 main:
 
     // Save frame pointer and return address.
-    stp     x29, x30, [sp, #-16]!
+    stp     x29, x30, [sp, #-32]!
     mov     x29, sp
+    str     x19, [sp, #16]
 
 
     // --------------------------------------------------------
@@ -208,10 +209,10 @@ main:
 
     bl      game_action_list_planets
 
-    // Return to main menu.
+    // Let the player read the planet information.
+    bl      ui_wait_for_enter
+
     b       .Lmain_loop
-
-
 
 // ------------------------------------------------------------
 // STUDY PLANET
@@ -226,23 +227,23 @@ main:
     bl      input_read_integer
 
     // Study selected planet.
-    //
-    // Returns:
-    // 0 = continue
-    // 2 = mission lost
     bl      game_action_study
 
+    // Save the return value because ui_wait_for_enter
+    // may change w0.
+    mov     w19, w0
 
-    // A return value of 2 means there are no
-    // reachable planets remaining.
+    // Give the player time to read the study report.
+    bl      ui_wait_for_enter
+
+    // Restore the study result.
+    mov     w0, w19
+
+    // 2 means the mission is lost.
     cmp     w0, #2
     b.eq    .Lmain_exit
 
-
-    // Otherwise keep playing.
     b       .Lmain_loop
-
-
 
 // ------------------------------------------------------------
 // TRAVEL TO PLANET
@@ -287,9 +288,11 @@ main:
 .Lhelp:
 
     bl      game_action_help
+
+    // Give the player time to read the mission instructions.
+    bl      ui_wait_for_enter
+
     b       .Lmain_loop
-
-
 
 // ------------------------------------------------------------
 // PLAYER QUITS
@@ -311,6 +314,6 @@ main:
     mov     w0, wzr
 
     // Restore frame pointer and return address.
-    ldp     x29, x30, [sp], #16
-
+    ldr     x19, [sp, #16]
+    ldp     x29, x30, [sp], #32
     ret

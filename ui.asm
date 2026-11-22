@@ -26,6 +26,8 @@ ui_wormhole_entered:
 ui_abandon:
     .asciz "\nYou turn the spacecraft back toward Earth.\n\nWithout a habitable world, humanity's final chance disappears.\n\nMISSION FAILED - HUMANITY'S FINAL EXPEDITION ENDS BEFORE IT BEGINS.\n"
 
+ui_continue:
+    .asciz "\nPress Enter to continue..."
 
 // ------------------------------------------------------------
 // MAIN GAME UI
@@ -849,6 +851,57 @@ ui_print_quit:
     adrp    x0, ui_quit
     add     x0, x0, :lo12:ui_quit
     bl      printf
+
+    ldp     x29, x30, [sp], #16
+    ret
+
+.global ui_wait_for_enter
+.type ui_wait_for_enter, %function
+
+/**
+ * ui_wait_for_enter
+ *
+ * Purpose:
+ * Pauses the screen until the player presses Enter.
+ *
+ * The first getchar removes the newline left behind
+ * by scanf. The function then waits for the player
+ * to press Enter again.
+ *
+ * Input:
+ * None.
+ *
+ * Output:
+ * None.
+ *
+ * Side effects:
+ * Waits for keyboard input.
+ */
+ui_wait_for_enter:
+
+    stp     x29, x30, [sp, #-16]!
+    mov     x29, sp
+
+    // Print the continue message.
+    adrp    x0, ui_continue
+    add     x0, x0, :lo12:ui_continue
+    bl      printf
+
+
+    // scanf leaves the previous Enter key in the input buffer.
+    // Remove that old newline first.
+    bl      getchar
+
+
+.Lwait_enter:
+
+    // Now wait for the player to press Enter again.
+    bl      getchar
+
+    // ASCII 10 = newline / Enter.
+    cmp     w0, #10
+    b.ne    .Lwait_enter
+
 
     ldp     x29, x30, [sp], #16
     ret
