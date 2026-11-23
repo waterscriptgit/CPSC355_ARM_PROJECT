@@ -37,29 +37,6 @@ include(`game.inc')dnl
 .extern ui_print_quit
 .extern ui_wait_for_enter
 
-/**
- * main
- *
- * Purpose:
- * Controls the overall game.
- *
- * The function:
- * 1. Initializes the game state.
- * 2. Displays the prologue.
- * 3. Handles the wormhole decision.
- * 4. Runs the main mission menu.
- * 5. Ends the program after a win, loss, abandonment,
- *    or player quit.
- *
- * Input:
- * None.
- *
- * Output:
- * w0 = 0 when the program ends.
- *
- * Side effects:
- * Calls the different game, input, and UI functions.
- */
 main:
 
     // Save frame pointer and return address.

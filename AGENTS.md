@@ -52,8 +52,8 @@ then update every module that consumes the affected layout.
 
 1. Keep input handling in `input.asm` and player-facing strings/output in
    `ui.asm`.
-2. Add or update comments for every exported procedure: purpose, input,
-   output, and side effects.
+2. Use short, useful comments around non-obvious code. Do not add rigid
+   template-style documentation blocks to every procedure.
 3. Test the changed normal path and relevant invalid-input, insufficient-fuel,
    repeat-action, and terminal win/loss paths on the course server.
 4. Run `git diff --check` before committing.

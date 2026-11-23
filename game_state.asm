@@ -25,23 +25,12 @@ game_visited:    .skip PLANET_COUNT
 .global game_init
 .type game_init, %function
 
-/**
- * game_init
- *
- * Purpose:
- * Sets up the starting game state.
- *
- * Input:
- * None.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Sets the starting fuel, clears the current location,
- * and marks every planet as not studied and not visited.
- */
 game_init:
+
+    stp     x29, x30, [sp, #-16]!
+    mov     x29, sp
+
+    bl      map_build_candidates
 
     // Start the player with INITIAL_FUEL.
     adrp    x1, game_fuel
@@ -86,6 +75,7 @@ game_init:
     subs    w2, w2, #1
     b.ne    .Lclear_visited
 
+    ldp     x29, x30, [sp], #16
     ret
 
 
@@ -93,21 +83,6 @@ game_init:
 .global game_get_fuel
 .type game_get_fuel, %function
 
-/**
- * game_get_fuel
- *
- * Purpose:
- * Returns the player's current amount of fuel.
- *
- * Input:
- * None.
- *
- * Output:
- * w0 = remaining fuel.
- *
- * Side effects:
- * None.
- */
 game_get_fuel:
 
     adrp    x1, game_fuel
@@ -123,23 +98,6 @@ game_get_fuel:
 .global game_try_spend_fuel
 .type game_try_spend_fuel, %function
 
-/**
- * game_try_spend_fuel
- *
- * Purpose:
- * Checks if the player has enough fuel for a cost.
- * If they do, the fuel is subtracted.
- *
- * Input:
- * w0 = amount of fuel to spend.
- *
- * Output:
- * w0 = 1 if the fuel was successfully spent.
- * w0 = 0 if there was not enough fuel.
- *
- * Side effects:
- * Updates game_fuel when successful.
- */
 game_try_spend_fuel:
 
     adrp    x1, game_fuel
@@ -172,21 +130,6 @@ game_try_spend_fuel:
 .global game_set_location
 .type game_set_location, %function
 
-/**
- * game_set_location
- *
- * Purpose:
- * Saves which planet the player is currently on.
- *
- * Input:
- * w0 = zero-based planet index.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Updates game_location.
- */
 game_set_location:
 
     adrp    x1, game_location
@@ -201,21 +144,6 @@ game_set_location:
 .global game_mark_studied
 .type game_mark_studied, %function
 
-/**
- * game_mark_studied
- *
- * Purpose:
- * Marks a planet as already studied.
- *
- * Input:
- * w0 = zero-based planet index.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Changes the matching value in game_studied to 1.
- */
 game_mark_studied:
 
     // Ignore an invalid planet index.
@@ -238,22 +166,6 @@ game_mark_studied:
 .global game_is_studied
 .type game_is_studied, %function
 
-/**
- * game_is_studied
- *
- * Purpose:
- * Checks whether a planet has already been studied.
- *
- * Input:
- * w0 = zero-based planet index.
- *
- * Output:
- * w0 = 1 if the planet was already studied.
- * w0 = 0 if it was not studied or the index was invalid.
- *
- * Side effects:
- * None.
- */
 game_is_studied:
 
     // Save the index before using w0 for the return value.
@@ -281,21 +193,6 @@ game_is_studied:
 .global game_mark_visited
 .type game_mark_visited, %function
 
-/**
- * game_mark_visited
- *
- * Purpose:
- * Marks a planet as already visited by the player.
- *
- * Input:
- * w0 = zero-based planet index.
- *
- * Output:
- * None.
- *
- * Side effects:
- * Changes the matching value in game_visited to 1.
- */
 game_mark_visited:
 
     cmp     w0, #PLANET_COUNT
@@ -315,23 +212,6 @@ game_mark_visited:
 .global game_is_visited
 .type game_is_visited, %function
 
-/**
- * game_is_visited
- *
- * Purpose:
- * Checks whether the player has already travelled
- * to a planet.
- *
- * Input:
- * w0 = zero-based planet index.
- *
- * Output:
- * w0 = 1 if already visited.
- * w0 = 0 if not visited or invalid.
- *
- * Side effects:
- * None.
- */
 game_is_visited:
 
     mov     w2, w0
@@ -357,23 +237,6 @@ game_is_visited:
 .global game_can_afford_travel
 .type game_can_afford_travel, %function
 
-/**
- * game_can_afford_travel
- *
- * Purpose:
- * Checks whether the player has enough fuel for a trip
- * without actually spending the fuel.
- *
- * Input:
- * w0 = travel fuel cost.
- *
- * Output:
- * w0 = 1 if the player can afford the trip.
- * w0 = 0 if the player cannot afford the trip.
- *
- * Side effects:
- * None.
- */
 game_can_afford_travel:
 
     stp     x29, x30, [sp, #-32]!

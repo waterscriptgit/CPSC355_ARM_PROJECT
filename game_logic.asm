@@ -14,22 +14,6 @@ include(`game.inc')dnl
 .global game_action_list_planets
 .type game_action_list_planets, %function
 
-/**
- * game_action_list_planets
- *
- * Purpose:
- * Displays the three candidate planets and their
- * original scientist reports.
- *
- * Input:
- * None.
- *
- * Output:
- * w0 = 0 so the main game loop continues.
- *
- * Side effects:
- * Prints planet information to the terminal.
- */
 game_action_list_planets:
 
     stp     x29, x30, [sp, #-16]!
@@ -47,22 +31,6 @@ game_action_list_planets:
 .global game_action_help
 .type game_action_help, %function
 
-/**
- * game_action_help
- *
- * Purpose:
- * Displays information about the mission and explains
- * what makes a planet suitable for human life.
- *
- * Input:
- * None.
- *
- * Output:
- * w0 = 0 so the main game loop continues.
- *
- * Side effects:
- * Prints mission help to the terminal.
- */
 game_action_help:
 
     stp     x29, x30, [sp, #-16]!
@@ -80,26 +48,6 @@ game_action_help:
 .global game_action_study
 .type game_action_study, %function
 
-/**
- * game_action_study
- *
- * Purpose:
- * Allows the player to spend fuel to perform a more
- * detailed remote study of one planet.
- *
- * If the planet was already studied, its detailed report
- * can be viewed again without paying fuel a second time.
- *
- * Input:
- * w0 = one-based planet number entered by the player.
- *
- * Output:
- * w0 = 0 if the game should continue.
- * w0 = 2 if studying leaves no possible planet to reach.
- *
- * Side effects:
- * May spend STUDY_COST fuel and mark the planet as studied.
- */
 game_action_study:
 
     stp     x29, x30, [sp, #-48]!
@@ -196,29 +144,6 @@ game_action_study:
 .global game_action_travel
 .type game_action_travel, %function
 
-/**
- * game_action_travel
- *
- * Purpose:
- * Attempts to travel to one of the three planets.
- *
- * The function checks that the planet exists, has not
- * already been visited, and that the player has enough fuel.
- *
- * After landing, the planet is checked for habitability.
- *
- * Input:
- * w0 = one-based planet number entered by the player.
- *
- * Output:
- * w0 = 0 if the mission continues.
- * w0 = 1 if the player finds the habitable planet.
- * w0 = 2 if the mission is lost.
- *
- * Side effects:
- * May spend fuel, change the player's location,
- * and mark a planet as visited.
- */
 game_action_travel:
 
     stp     x29, x30, [sp, #-48]!
@@ -311,7 +236,7 @@ game_action_travel:
 
 .Ltravel_win:
 
-    // The player found Aurelia.
+    // This one has all the things we need.
     mov     x0, x20
     bl      ui_print_win
 
@@ -367,23 +292,6 @@ game_action_travel:
 .global game_has_travel_option
 .type game_has_travel_option, %function
 
-/**
- * game_has_travel_option
- *
- * Purpose:
- * Checks all unvisited planets to see whether the player
- * still has enough fuel to reach at least one of them.
- *
- * Input:
- * None.
- *
- * Output:
- * w0 = 1 if at least one unvisited planet is affordable.
- * w0 = 0 if no remaining planet can be reached.
- *
- * Side effects:
- * None.
- */
 game_has_travel_option:
 
     stp     x29, x30, [sp, #-32]!
