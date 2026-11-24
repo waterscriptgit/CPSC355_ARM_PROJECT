@@ -32,3 +32,8 @@
 .equ ACTION_TRAVEL,         3
 .equ ACTION_HELP,           4
 .equ ACTION_QUIT,           5
+
+// Mission outcome values.
+define(`GAME_RUNNING', `0')
+define(`GAME_WON', `1')
+define(`GAME_LOST', `2')
