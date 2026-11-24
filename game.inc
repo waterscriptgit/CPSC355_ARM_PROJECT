@@ -34,6 +34,6 @@
 .equ ACTION_QUIT,           5
 
 // Mission outcome values.
-define(`GAME_RUNNING', `0')
-define(`GAME_WON', `1')
-define(`GAME_LOST', `2')
+.equ GAME_RUNNING, 0
+.equ GAME_WON,     1
+.equ GAME_LOST,    2
