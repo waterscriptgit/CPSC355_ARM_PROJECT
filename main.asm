@@ -14,6 +14,7 @@ include(`game.inc')dnl
 
 // Game state functions.
 .extern game_init
+.extern game_get_outcome
 
 // Input functions.
 .extern input_read_integer
@@ -119,6 +120,10 @@ main:
     */
 
 .Lmain_loop:
+    // Prevent another turn after the mission ends.
+    bl      game_get_outcome
+    cmp     w0, #GAME_RUNNING
+    b.ne    .Lmain_exit
 
     // Show remaining fuel.
     bl      ui_print_status
@@ -226,12 +231,10 @@ Study Planet
     // Let the player read the report.
     bl      ui_wait_for_enter
 
-    // Restore result.
-    mov     w0, w19
-
-    // 2 means mission lost.
-    cmp     w0, #2
-    b.eq    .Lmain_exit
+    // Check the stored mission outcome.
+    bl      game_get_outcome
+    cmp     w0, #GAME_RUNNING
+    b.ne    .Lmain_exit
 
     b       .Lmain_loop
 
@@ -287,16 +290,10 @@ Travel to planet
 
 .Ltravel_check_result:
 
-    // Restore result.
-    mov     w0, w19
-
-    // 1 = mission won.
-    cmp     w0, #1
-    b.eq    .Lmain_exit
-
-    // 2 = mission lost.
-    cmp     w0, #2
-    b.eq    .Lmain_exit
+    // End the mission if the player won or lost.
+    bl      game_get_outcome
+    cmp     w0, #GAME_RUNNING
+    b.ne    .Lmain_exit
 
     b       .Lmain_loop
 
