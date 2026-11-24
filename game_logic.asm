@@ -110,10 +110,13 @@ game_action_study:
 
 .Lstudy_loss:
 
-    // No reachable planets remain.
+    // Record the mission failure.
+    mov     w0, #GAME_LOST
+    bl      game_set_outcome
+
     bl      ui_print_loss
 
-    mov     w0, #2
+    mov     w0, #GAME_LOST
     b       .Lstudy_done
 
 
@@ -235,22 +238,28 @@ game_action_travel:
 
 .Ltravel_win:
 
-    // This one has all the things we need.
+    // Record the mission success.
+    mov     w0, #GAME_WON
+    bl      game_set_outcome
+
     mov     x0, x20
     bl      ui_print_win
 
-    mov     w0, #1
+    mov     w0, #GAME_WON
     b       .Ltravel_done
 
 
 
 .Ltravel_loss:
 
+    // Record the mission failure.
+    mov     w0, #GAME_LOST
+    bl      game_set_outcome
+
     bl      ui_print_loss
 
-    mov     w0, #2
+    mov     w0, #GAME_LOST
     b       .Ltravel_done
-
 
 
 .Ltravel_no_fuel:

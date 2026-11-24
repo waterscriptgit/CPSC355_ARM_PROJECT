@@ -32,7 +32,7 @@ game_init:
     mov     x29, sp
 
     bl      map_build_candidates
-    
+
         // Reset mission outcome.
     adrp    x1, game_outcome
     add     x1, x1, :lo12:game_outcome
