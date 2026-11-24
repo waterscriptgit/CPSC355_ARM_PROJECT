@@ -10,6 +10,7 @@ include(`game.inc')dnl
 
 game_fuel:       .skip 4
 game_location:   .skip 4
+game_outcome:    .skip 4
 
 // One byte for each planet.
 // 0 = not studied nor visited
@@ -31,6 +32,12 @@ game_init:
     mov     x29, sp
 
     bl      map_build_candidates
+
+        // Reset mission outcome.
+    adrp    x1, game_outcome
+    add     x1, x1, :lo12:game_outcome
+    mov     w0, #GAME_RUNNING
+    str     w0, [x1]
 
     // Start the player with INITIAL_FUEL.
     adrp    x1, game_fuel
@@ -270,4 +277,40 @@ game_can_afford_travel:
 .Lafford_done:
 
     ldp     x29, x30, [sp], #32
+    ret
+
+.global game_get_outcome
+.type game_get_outcome, %function
+
+game_get_outcome:
+
+    // Return the current mission outcome.
+    adrp    x1, game_outcome
+    add     x1, x1, :lo12:game_outcome
+    ldr     w0, [x1]
+
+    ret
+
+
+.global game_set_outcome
+.type game_set_outcome, %function
+
+game_set_outcome:
+
+    // Do not overwrite a finished mission.
+    adrp    x1, game_outcome
+    add     x1, x1, :lo12:game_outcome
+    ldr     w2, [x1]
+
+    cmp     w2, #GAME_RUNNING
+    b.ne    .Lset_outcome_done
+
+    // Only accept valid outcome values.
+    cmp     w0, #GAME_LOST
+    b.hi    .Lset_outcome_done
+
+    str     w0, [x1]
+
+.Lset_outcome_done:
+
     ret

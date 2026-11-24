@@ -32,3 +32,8 @@
 .equ ACTION_TRAVEL,         3
 .equ ACTION_HELP,           4
 .equ ACTION_QUIT,           5
+
+// Mission outcome values.
+.equ GAME_RUNNING, 0
+.equ GAME_WON,     1
+.equ GAME_LOST,    2
