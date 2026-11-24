@@ -1,6 +1,5 @@
 // Game workflows.
-// This file connects the map, game state, input choices,
-// and user interface together.
+// This file connects the map, game state, input choices, and user interface together.
 
 .arch armv8-a
 include(`game.inc')dnl
@@ -202,11 +201,11 @@ game_action_travel:
     bl      ui_print_travel_start
 
 
-    // --------------------------------------------------------
-    // Check if the planet is actually habitable.
-    //
-    // A viable planet must have every required trait.
-    // --------------------------------------------------------
+    /*
+        Check if the planet is actually habitable.
+
+        A viable planet must have every required trait.
+    */
 
     ldr     w0, [x20, #PLANET_TRAITS]
 
@@ -340,7 +339,7 @@ game_has_travel_option:
     b.lt    .Lcheck_planet
 
 
-    // We checked all planets and none were affordable.
+    // checked all planets and none were affordable.
     mov     w0, wzr
     b       .Ltravel_option_done
 

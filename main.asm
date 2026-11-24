@@ -45,9 +45,9 @@ main:
     str     x19, [sp, #16]
 
 
-    // --------------------------------------------------------
-    // SET UP THE GAME
-    // --------------------------------------------------------
+    /*
+        SET UP THE GAME
+    */
 
     // Set starting fuel and clear previous game state.
     bl      game_init
@@ -57,14 +57,14 @@ main:
     bl      ui_print_prologue
 
 
-    // --------------------------------------------------------
-    // WORMHOLE DECISION
-    //
-    // The player must decide whether to accept the mission.
-    //
-    // 1 = enter wormhole
-    // 2 = abandon mission
-    // --------------------------------------------------------
+    /*
+        WORMHOLE DECISION
+
+        The player must decide whether to accept the mission.
+
+        1 = enter wormhole
+        2 = abandon mission
+    */
 
 .Lwormhole_choice:
 
@@ -77,7 +77,7 @@ main:
     b.eq    .Lenter_wormhole
 
 
-    // Did the player abandon the mission?
+    // did the player abandon the mission?
     cmp     w0, #2
     b.eq    .Labandon_mission
 
@@ -108,15 +108,15 @@ main:
 
 
 
-    // --------------------------------------------------------
-    // MAIN GAME LOOP
-    //
-    // The player repeatedly chooses an action until:
-    //
-    // - a habitable planet is found
-    // - no reachable planet remains
-    // - the player quits
-    // --------------------------------------------------------
+    /*
+        MAIN GAME LOOP
+
+        The player repeatedly chooses an action until:
+
+        - a habitable planet is found
+        - no reachable planet remains
+        - the player quits
+    */
 
 .Lmain_loop:
 
@@ -130,41 +130,41 @@ main:
     bl      input_read_integer
 
 
-    // --------------------------------------------------------
-    // ACTION 1: VIEW PLANETS
-    // --------------------------------------------------------
+    /*
+        ACTION 1: VIEW PLANETS
+    */
 
     cmp     w0, #ACTION_LIST_PLANETS
     b.eq    .Llist_planets
 
 
-    // --------------------------------------------------------
-    // ACTION 2: STUDY PLANET
-    // --------------------------------------------------------
+    /*
+        Action 2: Study planet
+    */
 
     cmp     w0, #ACTION_STUDY_PLANET
     b.eq    .Lstudy_planet
 
 
-    // --------------------------------------------------------
-    // ACTION 3: TRAVEL
-    // --------------------------------------------------------
+    /*
+        Action: Travel
+    */
 
     cmp     w0, #ACTION_TRAVEL
     b.eq    .Ltravel_planet
 
 
-    // --------------------------------------------------------
-    // ACTION 4: MISSION HELP
-    // --------------------------------------------------------
+    /*
+    Action 4: Help
+    */
 
     cmp     w0, #ACTION_HELP
     b.eq    .Lhelp
 
 
-    // --------------------------------------------------------
-    // ACTION 5: QUIT
-    // --------------------------------------------------------
+    /*
+    Action 5: Quit
+    */
 
     cmp     w0, #ACTION_QUIT
     b.eq    .Lquit
@@ -178,9 +178,9 @@ main:
 
 
 
-// ------------------------------------------------------------
-// VIEW PLANETS
-// ------------------------------------------------------------
+/*
+View Planets
+*/
 
 .Llist_planets:
 
@@ -191,9 +191,9 @@ main:
 
     b       .Lmain_loop
 
-// ------------------------------------------------------------
-// STUDY PLANET
-// ------------------------------------------------------------
+/*
+Study Planet
+*/
 
 .Lstudy_planet:
 
@@ -244,9 +244,9 @@ main:
     // Stay inside the Study submenu.
     b       .Lstudy_choice
 
-// ------------------------------------------------------------
-// TRAVEL TO PLANET
-// ------------------------------------------------------------
+/*
+Travel to planet
+*/
 
 .Ltravel_planet:
 
@@ -309,9 +309,9 @@ main:
     // Stay inside the Travel submenu.
     b       .Ltravel_choice
 
-// ------------------------------------------------------------
-// MISSION HELP
-// ------------------------------------------------------------
+/*
+    MISSION HELP
+*/
 
 .Lhelp:
 
@@ -322,9 +322,9 @@ main:
 
     b       .Lmain_loop
 
-// ------------------------------------------------------------
-// PLAYER QUITS
-// ------------------------------------------------------------
+/*
+Player Quits
+*/
 
 .Lquit:
 
@@ -332,9 +332,9 @@ main:
 
 
 
-// ------------------------------------------------------------
-// END PROGRAM
-// ------------------------------------------------------------
+/*
+End program
+*/
 
 .Lmain_exit:
 

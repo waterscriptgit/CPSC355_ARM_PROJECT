@@ -12,7 +12,7 @@ game_fuel:       .skip 4
 game_location:   .skip 4
 
 // One byte for each planet.
-// 0 = not studied/visited
+// 0 = not studied nor visited
 // 1 = studied/visited
 game_studied:    .skip PLANET_COUNT
 game_visited:    .skip PLANET_COUNT

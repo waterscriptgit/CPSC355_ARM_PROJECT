@@ -7,9 +7,9 @@ include(`game.inc')dnl
 
 .section .rodata
 
-// ------------------------------------------------------------
-// STORY / PROLOGUE TEXT
-// ------------------------------------------------------------
+/*
+    Story/Prologue
+*/
 
 ui_banner:
     .asciz "\n=== INTERSTELLAR EXPLORATION MISSION ===\n"
@@ -29,9 +29,9 @@ ui_abandon:
 ui_continue:
     .asciz "\nPress Enter to continue..."
 
-// ------------------------------------------------------------
-// MAIN GAME UI
-// ------------------------------------------------------------
+/*
+    Main Game UI
+*/
 
 ui_status_format:
     .asciz "\nFuel remaining: %d\n"
@@ -55,17 +55,17 @@ ui_invalid_planet:
     .asciz "Invalid planet number. Choose 1 to 3, or 0 to go back.\n"
 
 
-// ------------------------------------------------------------
-// HELP / SCIENCE INFORMATION
-// ------------------------------------------------------------
+/*
+    Help/Science Information
+*/
 
 ui_help:
     .asciz "\n=== MISSION HELP ===\nA planet suitable for long-term human survival should have liquid water, a stable atmosphere, reasonable temperatures, manageable radiation, and conditions that allow food and energy production.\n\nStudying a planet remotely costs 2 fuel but reveals a more detailed scientific report.\nTravelling costs more fuel and cannot be undone.\n\nRemember: the original scientist reports may not always be reliable.\n"
 
 
-// ------------------------------------------------------------
-// STUDY TEXT
-// ------------------------------------------------------------
+/*
+    Study text
+*/
 
 ui_study_format:
     .asciz "\n=== DETAILED ANALYSIS: %s ===\n%s\n"
@@ -77,9 +77,9 @@ ui_insufficient_study_fuel:
     .asciz "Not enough fuel remaining to perform a detailed study.\n"
 
 
-// ------------------------------------------------------------
-// TRAVEL TEXT
-// ------------------------------------------------------------
+/*
+    Travel Text
+*/
 
 ui_travel_format:
     .asciz "\nTravelling to %s...\nTravel cost: %d fuel.\n\nLanding sequence initiated...\n"
@@ -94,9 +94,9 @@ ui_nonviable_format:
     .asciz "\nSurface analysis complete.\n%s is NOT suitable for permanent human settlement.\nYou must continue searching.\n"
 
 
-// ------------------------------------------------------------
-// ENDING TEXT
-// ------------------------------------------------------------
+/*
+    Ending text
+*/
 
 ui_win_format:
     .asciz "\nAtmospheric composition: SAFE\nLiquid water: CONFIRMED\nTemperature: STABLE\nRadiation: SAFE\nOrganic compounds: DETECTED\n\n%s IS HABITABLE.\n\nFor the first time in decades, humanity receives hopeful news.\nCoordinates are transmitted back through the wormhole, and preparations begin for the largest journey in human history.\n\nEarth may be dying, but humanity will continue somewhere new among the stars.\n\nMISSION SUCCESS - HUMANITY SURVIVES.\n"

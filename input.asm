@@ -1,4 +1,4 @@
-// Terminal input boundary. This is the only module that depends on scanf/getchar.
+// Terminal input boundary. This is the only module that depends on scanf.
 .arch armv8-a
 
 .section .rodata
